@@ -9,13 +9,17 @@ import { logger } from "../logger";
 import { log } from "console";
 
 let sentArticleIds = new Set();
-
-const DCbotToken = process.env.DISCORD_BOT_TOKEN;
-const TelegramBotToken = process.env.BOT_TOKEN;
+const {
+    DISCORD_BOT_TOKEN,
+    BOT_TOKEN,
+    TECHCRUNCH_API_URL,
+    DISCORD_CHANNEL_ID,
+    TELEGRAM_CHANNEL_ID,
+} = process.env;
 class Worker {
-    url: string;
+    url: string | undefined;
     constructor() {
-        this.url = "https://techcrunch.com/wp-json/wp/v2/posts";
+        this.url = TECHCRUNCH_API_URL;
     }
 
     /**
@@ -26,7 +30,7 @@ class Worker {
     async fetchData(): Promise<any> {
         try {
 
-            const response = await fetch(this.url, {
+            const response = await fetch(this.url ?? "", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -58,7 +62,7 @@ class Worker {
                         {
                             content: `📰 | ${myEmbed.title}\n${myEmbed.url}`,
                         },
-                        "1228266643633737768"
+                        DISCORD_CHANNEL_ID ?? ""
                     );
                     this.sendToTelegram(
                         `📰 | ${myEmbed.title}\n${myEmbed.url}`
@@ -84,7 +88,7 @@ class Worker {
         fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
             method: "POST",
             headers: {
-                Authorization: `Bot ${DCbotToken}`,
+                Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(article),
@@ -92,9 +96,9 @@ class Worker {
     }
 
     async sendToTelegram(article: any) {
-        if (TelegramBotToken) {
-            const tg = new Telegram(TelegramBotToken);
-            tg.sendMessage("@dailytechneuz", article);
+        if (BOT_TOKEN) {
+            const tg = new Telegram(BOT_TOKEN);
+            tg.sendMessage(TELEGRAM_CHANNEL_ID ?? "", article);
         } else {
             logger.error("TelegramBotToken is undefined.");
         }
