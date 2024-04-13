@@ -15,17 +15,11 @@ npm install
 3. Rename the `example.env` to `.env` file and edit the following variables:
     - `BOT_TOKEN`: The token of the telegram bot
     - `DISCORD_BOT_TOKEN`: The id of the telegram channel (Only if you want to send it to discord)
-4. Run the script
-
-## Usage
-
-The script sends the latest tech updates to the telegram channel.
-
-1. Run the script
+4. Run the build script
 ```bash
 npm run build
 ```
-2. Start the bot
+5. Start the script
 ```bash
 npm start
 ```
@@ -33,3 +27,9 @@ npm start
 ## Author
 
 - [@chethanyadav456](https://www.github.com/chethanyadav456)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+
