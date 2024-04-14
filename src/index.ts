@@ -58,7 +58,16 @@ async function fetchAndUpdateData(env: Env) {
                     url: article.link,
                     footer: `ID - ${article.id}`,
                 };
-                await sendToTelegram(`📰 | ${myEmbed.title}\n${myEmbed.url}`, env.TELEGRAM_BOT_TOKEN, "@dailytechneuz");
+
+                const message = `📰 | ${readable(myEmbed.title)}\n${myEmbed.url}`;
+
+                await sendToTelegram(
+                    message,
+                    env.TELEGRAM_BOT_TOKEN,
+                    "@dailytechneuz",
+                    "HTML"
+                );
+                // await sendToTelegram(`📰 | ${myEmbed.title} ${myEmbed.url}`, env.TELEGRAM_BOT_TOKEN, "@dailytechneuz");
 
                 await Promise.all(users.map(async (user) => {
                     if (!user.channelId) {
@@ -88,6 +97,43 @@ async function fetchAndUpdateData(env: Env) {
         return new Response("Error fetching and updating data", { status: 500 });
     }
 }
+function readable(title: string): string {
+    return title
+        .replace(/&#8217;/g, "'")
+        .replace(/!/g, "")
+        .replace(/@/g, "")
+        .replace(/#/g, "")
+        .replace(/\$/g, "")
+        .replace(/%/g, "")
+        .replace(/\^/g, "")
+        .replace(/&/g, "")
+        .replace(/\*/g, "")
+        .replace(/\(/g, "")
+        .replace(/\)/g, "")
+        .replace(/_/g, "")
+        .replace(/\+/g, "")
+        .replace(/=/g, "")
+        .replace(/{/g, "")
+        .replace(/\[/g, "")
+        .replace(/}/g, "")
+        .replace(/]/g, "")
+        .replace(/\|/g, "-")
+        .replace(/:/g, "")
+        .replace(/;/g, "")
+        .replace(/"/g, "")
+        .replace(/'/g, "")
+        .replace(/</g, "")
+        .replace(/,/g, "")
+        .replace(/>/g, "")
+        .replace(/\./g, "")
+        .replace(/\?/g, "")
+        .replace(/\//g, "")
+        .replace(/\\/g, "")
+        .replace(/~/g, "")
+        .replace(/`/g, "");
+}
+
+
 
 // HTTP request handler
 export default {
@@ -140,6 +186,6 @@ async function sendToDiscord(article: any, channelId: string, botToken: string) 
     });
 }
 
-async function sendToTelegram(article: any, botToken: string, channelId: string) {
-    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${channelId}&text=${article}`);
+async function sendToTelegram(article: any, botToken: string, channelId: string, parse_mode?: string) {
+    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${channelId}&text=${article}&parse_mode=${parse_mode}`);
 }
