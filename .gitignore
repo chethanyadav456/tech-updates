@@ -4,3 +4,5 @@ dist
 
 wrangler.toml
 pnpm-lock.yaml
+
+.wrangler

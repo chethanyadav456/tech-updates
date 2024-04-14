@@ -20,8 +20,7 @@ export const SubCommand: Command = {
         
         const channel = (ctx.interaction.data as any).options[0].value;
         const prisma = new PrismaClient({
-            //datasourceUrl: env.DATABASE_URL
-            datasourceUrl: "prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiYmVhZDYzMDQtZTQ0OC00Mzk3LTlhMTYtYzVkNDlmNzZiNDA4IiwidGVuYW50X2lkIjoiOTZiZjkwY2JhZGRiZGI0MjYzYWNhNDgyNzA1ZDI0ZDY2Njg3NTUyZWIzMTY4OTRmYzU5ZmFmMWZkYzNhYzc5OSIsImludGVybmFsX3NlY3JldCI6Ijg5YjRlNTNhLWM0NjQtNDViZC1hNTQ4LWMwMjU0NWU2YmUyNiJ9.qlBUS6EZp15jejv0CLjeGSC5kzkP3qZLBWLRcVYcyUQ",
+            datasourceUrl: ctx.env.DATABASE_URL
         }).$extends(withAccelerate());
 
         if (!channel) {

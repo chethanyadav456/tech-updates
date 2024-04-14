@@ -1,6 +1,6 @@
 # Tech Updates
 
-Sends daily tech updates to a telegram channel.
+Delivers daily tech updates to Telegram and Discord channels.
 
 ## Setup
 
@@ -12,21 +12,29 @@ git clone https://github.com/chethanyadav456/tech-updates
 ```bash
 npm install
 ```
-3. Rename the `example.env` to `.env` file and edit the following variables:
-    - `BOT_TOKEN`: The token of the telegram bot
-    - `DISCORD_BOT_TOKEN`: The id of the telegram channel (Only if you want to send it to discord)
-4. Run the build script
+3. Rename the `example.wrangler.toml` to `wrangler.toml` file and edit the following variables:
+
+- account_id = "" // Add your account id here
+
+- DATABASE_URL="" // Add your database url here
+- DIRECT_DATABASE_URL="" // Add your direct database url here
+- TELEGRAM_BOT_TOKEN="" // Add your telegram bot token here
+- TECHCRUNCH_API_URL="" // Add your techcrunch api url here
+- APPLICATION_ID="" // Add your application id here
+- PUBLIC_KEY="" // Add your public key here
+- DISCORD_BOT_TOKEN="" // Add your discord bot token here
+- DISCORD_WEBHOOK_URL="" // Add your discord webhook url here
+
+4. Run the script
 ```bash
-npm run build
-```
-5. Start the script
-```bash
-npm start
+npm run deploy
 ```
 
-## Author
+## Special thanks to:
 
-- [@chethanyadav456](https://www.github.com/chethanyadav456)
+<a href="https://github.com/chethanyadav456/tech-updates/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=chethanyadav456/tech-updates" />
+</a>
 
 ## License
 
