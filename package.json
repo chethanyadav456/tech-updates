@@ -1,32 +1,31 @@
 {
   "name": "tech-updates",
-  "description": "",
   "version": "1.0.0",
+  "private": true,
   "main": "index.js",
+  "devDependencies": {
+    "@cloudflare/workers-types": "4.20240405.0",
+    "@types/node": "^20.12.7",
+    "prisma": "5.12.1",
+    "ts-loader": "^7.0.5",
+    "typescript": "5.4.5",
+    "webpack": "^4.43.0",
+    "wrangler": "3.50.0"
+  },
+  "dependencies": {
+    "@prisma/client": "5.12.1",
+    "@prisma/extension-accelerate": "^1.0.0",
+    "esbuild": "^0.20.2",
+    "cf-workers-discord": "github:appujet/cf-workers-discord#84fe24aa6be762920f8025cdd78730bee37ca4ba"
+  },
   "scripts": {
-    "start": "node ./build/src/index.js",
-    "dev": "nodemon index.js",
-    "build": "tsc",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "lint": "tslint -p tsconfig.json -c tslint.json",
-    "prepublishOnly": "pnpm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "wrangler deploy -e build",
+    "build": "node scripts/build.mjs",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "add": "^2.0.6",
-    "discord.js": "^14.14.1",
-    "dotenv": "^16.4.5",
-    "node-fetch": "^2.6.7",
-    "pino": "^8.20.0",
-    "pino-pretty": "^11.0.0",
-    "telegraf": "^4.16.3",
-    "typescript": "^5.4.5"
-  },
-  "devDependencies": {
-    "@types/node": "^20.12.7",
-    "@types/node-fetch": "^2.6.11"
-  }
+  "license": "ISC"
 }

@@ -1,3 +1,6 @@
 .env
 node_modules
-build
+dist
+
+wrangler.toml
+pnpm-lock.yaml
