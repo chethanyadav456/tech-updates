@@ -154,58 +154,6 @@ async function fetchAndUpdateData(env: Env) {
     }
 }
 
-// async function fetchAndUpdateDataToi(env: Env) {
-//     try {
-//         const prisma = new PrismaClient({
-//             datasourceUrl: env.DATABASE_URL
-//         }).$extends(withAccelerate());
-
-//         await prisma.$connect();
-//         const data = await fetchData(env.TECHCRUNCH_API_URL);
-
-//         if (!data) {
-//             return new Response("No data found", { status: 404 });
-//         }
-
-//         await Promise.all(data.map(async (article) => {
-//             const myEmbed = {
-//                 title: article.h1,
-//                 url: article.wu,
-//                 footer: `ID - ${article.id}`,
-//             };
-
-//             const message = `📰 | ${readable(myEmbed.title)}\n${myEmbed.url}`
-
-//             await sendToTelegram(
-//                 message,
-//                 env.TELEGRAM_BOT_TOKEN,
-//                 "@dailytechneuz",
-//                 "HTML"
-//             );
-
-//             await prisma.toi_article.create({
-//                 data: {
-//                     id: article.id
-//                 }
-//             });
-//         }));
-//         await prisma.$disconnect(); // Disconnect from the database
-//         await fetch(env.DISCORD_WEBHOOK_URL, {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json",
-//             },
-//             body: JSON.stringify({
-//                 content: `Data updated at <t:${Math.floor(Date.now() / 1000)}:R>`,
-//             }),
-//         });
-//         return new Response("Data updated", { status: 200 });
-//     } catch (error) {
-//         console.error("Error fetching and updating data:", error);
-//         return new Response("Error fetching and updating data", { status: 500 });
-//     }
-
-// }
 function readable(title: string): string {
     return title
         .replace(/&#8217;/g, "'")
