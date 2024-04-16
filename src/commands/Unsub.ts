@@ -17,11 +17,11 @@ export const UnSubCommand: Command = {
             datasourceUrl: ctx.env.DATABASE_URL,
         }).$extends(withAccelerate());
 
-        let userId = ctx.interaction.member?.user.id as any;
+        let guildId = ctx.interaction.guild_id as any;
 
-        const data = await prisma.user.findUnique({
+        const data = await prisma.subs.findUnique({
             where: {
-                userId: userId,
+                guildId,
             },
         });
 
@@ -33,9 +33,9 @@ export const UnSubCommand: Command = {
                 },
             };
         }
-        await prisma.user.delete({
+        await prisma.subs.delete({
             where: {
-                userId: userId,
+                guildId,
             },
         });
         return {

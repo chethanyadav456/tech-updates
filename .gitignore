@@ -6,3 +6,4 @@ wrangler.toml
 pnpm-lock.yaml
 
 .wrangler
+prisma/migrations

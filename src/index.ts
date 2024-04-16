@@ -10,6 +10,7 @@ export interface Env {
     PUBLIC_KEY: string;
     APPLICATION_ID: string;
     TECHCRUNCH_API_URL: string;
+    TOINEWS_API_URL: string;
     DISCORD_WEBHOOK_URL: string;
 }
 
@@ -21,10 +22,24 @@ type tc_article = {
     };
 }
 
+type toi_article = {
+    id: any;
+    hl: any;
+    wu: any;
+    des: any;
+}
+
 async function fetchData(url: string): Promise<tc_article[]> {
     const response = await fetch(url);
     const data = await response.json() as tc_article[];
     return data;
+}
+
+async function fetchTOIData(url: string): Promise<toi_article[]> {
+    const response = await fetch(url);
+    const data = await response.json() as any;
+    // console.log(data);
+    return data.items as toi_article[];
 }
 
 let applicationCommandHandler: (request: Request) => any;
@@ -38,15 +53,19 @@ async function fetchAndUpdateData(env: Env) {
 
         await prisma.$connect();
         const data = await fetchData(env.TECHCRUNCH_API_URL);
-        const sentArticleIds = await prisma.tc_article.findMany();
-        const users = await prisma.user.findMany();
+        const data2 = await fetchTOIData(env.TOINEWS_API_URL);
+        const sentArticleIdsTc = await prisma.tc_article.findMany();
+        const sentArticleIdsToi = await prisma.toi_article.findMany();
+        const subs = await prisma.subs.findMany();
 
         if (!data) {
-            return new Response("No data found", { status: 404 });
+            return new Response("No data found tc", { status: 404 });
         }
-
+        if (!data2) {
+            return new Response("No data found toi", { status: 404 });
+        }
         await Promise.all(data.map(async (article) => {
-            const isArticleSent = sentArticleIds.find((a) => a.atitleId === article.id);
+            const isArticleSent = sentArticleIdsTc.find((a) => a.atitleId === article.id);
             if (!isArticleSent) {
                 await prisma.tc_article.create({
                     data: {
@@ -67,20 +86,57 @@ async function fetchAndUpdateData(env: Env) {
                     "@dailytechneuz",
                     "HTML"
                 );
-                // await sendToTelegram(`📰 | ${myEmbed.title} ${myEmbed.url}`, env.TELEGRAM_BOT_TOKEN, "@dailytechneuz");
+                await sendToTelegram(`📰 | ${myEmbed.title} ${myEmbed.url}`, env.TELEGRAM_BOT_TOKEN, "@dailytechneuz");
 
-                await Promise.all(users.map(async (user) => {
-                    if (!user.channelId) {
+                await Promise.all(subs.map(async (sub) => {
+                    if (!sub.channelId) {
                         return new Response("No channel or chat id found", { status: 400 });
                     }
                     await sendToDiscord({
                         content: `📰 | ${myEmbed.title}\n${myEmbed.url}`,
-                    }, user.channelId, env.DISCORD_BOT_TOKEN);
+                    }, sub.channelId, env.DISCORD_BOT_TOKEN);
                 }));
             } else {
                 return new Response("Article already sent", { status: 400 });
             }
         }));
+
+        await Promise.all(data2.map(async (article) => {
+            const isArticleSent = sentArticleIdsToi.find((a) => a.id === article.id);
+            if (!isArticleSent) {
+                await prisma.toi_article.create({
+                    data: {
+                        id: article.id,
+                        atitleId: article.id
+                    }
+                });
+                const myEmbed = {
+                    title: article.hl,
+                    url: article.wu,
+                    footer: `ID - ${article.id}`,
+                };
+                const message = `📰 | ${(myEmbed.title)}\n${myEmbed.url}`
+
+                await sendToTelegram(
+                    message,
+                    env.TELEGRAM_BOT_TOKEN,
+                    "@dailytechneuz",
+                    "HTML"
+                );
+
+                await Promise.all(subs.map(async (sub) => {
+                    if (!sub.channelId) {
+                        return new Response("No channel or chat id found", { status: 400 });
+                    }
+                    await sendToDiscord({
+                        content: `📰 | ${myEmbed.title}\n${myEmbed.url}`,
+                    }, sub.channelId, env.DISCORD_BOT_TOKEN);
+                }));
+            } else {
+                return new Response("Article already sent", { status: 400 });
+            }
+        }));
+
         await prisma.$disconnect(); // Disconnect from the database
         await fetch(env.DISCORD_WEBHOOK_URL, {
             method: "POST",
@@ -94,9 +150,62 @@ async function fetchAndUpdateData(env: Env) {
         return new Response("Data updated", { status: 200 });
     } catch (error) {
         console.error("Error fetching and updating data:", error);
-        return new Response("Error fetching and updating data", { status: 500 });
+        return new Response("Error fetching and updating data" + error, { status: 500 });
     }
 }
+
+// async function fetchAndUpdateDataToi(env: Env) {
+//     try {
+//         const prisma = new PrismaClient({
+//             datasourceUrl: env.DATABASE_URL
+//         }).$extends(withAccelerate());
+
+//         await prisma.$connect();
+//         const data = await fetchData(env.TECHCRUNCH_API_URL);
+
+//         if (!data) {
+//             return new Response("No data found", { status: 404 });
+//         }
+
+//         await Promise.all(data.map(async (article) => {
+//             const myEmbed = {
+//                 title: article.h1,
+//                 url: article.wu,
+//                 footer: `ID - ${article.id}`,
+//             };
+
+//             const message = `📰 | ${readable(myEmbed.title)}\n${myEmbed.url}`
+
+//             await sendToTelegram(
+//                 message,
+//                 env.TELEGRAM_BOT_TOKEN,
+//                 "@dailytechneuz",
+//                 "HTML"
+//             );
+
+//             await prisma.toi_article.create({
+//                 data: {
+//                     id: article.id
+//                 }
+//             });
+//         }));
+//         await prisma.$disconnect(); // Disconnect from the database
+//         await fetch(env.DISCORD_WEBHOOK_URL, {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify({
+//                 content: `Data updated at <t:${Math.floor(Date.now() / 1000)}:R>`,
+//             }),
+//         });
+//         return new Response("Data updated", { status: 200 });
+//     } catch (error) {
+//         console.error("Error fetching and updating data:", error);
+//         return new Response("Error fetching and updating data", { status: 500 });
+//     }
+
+// }
 function readable(title: string): string {
     return title
         .replace(/&#8217;/g, "'")

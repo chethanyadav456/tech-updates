@@ -14,8 +14,14 @@ model tc_article {
   atitleId Int
 }
 
-model user {
+model toi_article {
+  id       String @id @default(cuid())
+  atitleId String
+}
+
+model subs {
   id        String @id @default(cuid())
-  userId    String @unique
+  guildId    String @unique
   channelId String
 }
+

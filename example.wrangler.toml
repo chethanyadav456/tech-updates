@@ -19,6 +19,7 @@ DATABASE_URL="" // Add your database url here
 DIRECT_DATABASE_URL="" // Add your direct database url here
 TELEGRAM_BOT_TOKEN="" // Add your telegram bot token here
 TECHCRUNCH_API_URL="" // Add your techcrunch api url here
+TOINEWS_API_URL="" // Add your toi news api url here
 APPLICATION_ID="" // Add your application id here
 PUBLIC_KEY="" // Add your public key here
 DISCORD_BOT_TOKEN="" // Add your discord bot token here

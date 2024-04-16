@@ -32,11 +32,11 @@ export const SubCommand: Command = {
             };
         }
 
-        let userId = ctx.interaction.member?.user.id as any;
+        let guildId = ctx.interaction.guild_id as any;
 
-        const data = await prisma.user.findUnique({
+        const data = await prisma.subs.findUnique({
             where: {
-                userId: userId,
+                guildId,
             },
         });
 
@@ -44,13 +44,13 @@ export const SubCommand: Command = {
             return {
                 type: InteractionResponseType.ChannelMessageWithSource,
                 data: {
-                    content: `You are already subscribed!`,
+                    content: `This server is already subscribed to <#${data.channelId}>!`,
                 },
             };
         }
-        await prisma.user.create({
+        await prisma.subs.create({
             data: {
-                userId: userId,
+                guildId,
                 channelId: channel,
             },
         });
