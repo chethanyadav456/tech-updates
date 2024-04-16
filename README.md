@@ -2,6 +2,16 @@
 
 Delivers daily tech updates to Telegram and Discord channels.
 
+![Discord](https://img.shields.io/discord/807872777490137088) ![GitHub License](https://img.shields.io/github/license/chethanyadav456/tech-updates)
+
+
+
+# 🎁Invite bot
+Discord Bot Lint - [Invite](https://discord.com/oauth2/authorize?client_id=956662165698383972&permissions=429563144257&scope=applications.commands%20bot)
+
+
+Telegram Channel Link - [Invite](https://t.me/dailytechneuz)
+
 ## Setup
 
 1. Clone the repository
@@ -64,4 +74,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-
+<iframe src="https://discord.com/widget?id=807872777490137088&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
