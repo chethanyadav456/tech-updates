@@ -86,7 +86,6 @@ async function fetchAndUpdateData(env: Env) {
                     "@dailytechneuz",
                     "HTML"
                 );
-                await sendToTelegram(`📰 | ${myEmbed.title} ${myEmbed.url}`, env.TELEGRAM_BOT_TOKEN, "@dailytechneuz");
 
                 await Promise.all(subs.map(async (sub) => {
                     if (!sub.channelId) {
@@ -110,15 +109,15 @@ async function fetchAndUpdateData(env: Env) {
                         atitleId: article.id
                     }
                 });
-                const myEmbed = {
+                const ToiEmbed = {
                     title: article.hl,
                     url: article.wu,
                     footer: `ID - ${article.id}`,
                 };
-                const message = `📰 | ${(myEmbed.title)}\n${myEmbed.url}`
+                const messageToi = `📰 | ${(ToiEmbed.title)}\n${ToiEmbed.url}`
 
                 await sendToTelegram(
-                    message,
+                    messageToi,
                     env.TELEGRAM_BOT_TOKEN,
                     "@dailytechneuz",
                     "HTML"
@@ -129,7 +128,7 @@ async function fetchAndUpdateData(env: Env) {
                         return new Response("No channel or chat id found", { status: 400 });
                     }
                     await sendToDiscord({
-                        content: `📰 | ${myEmbed.title}\n${myEmbed.url}`,
+                        content: messageToi,
                     }, sub.channelId, env.DISCORD_BOT_TOKEN);
                 }));
             } else {
