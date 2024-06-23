@@ -2265,7 +2265,7 @@ packages:
       stoppable: 1.1.0
       undici: 5.28.4
       workerd: 1.20240405.0
-      ws: 8.14.2
+      ws: 8.17.1
       youch: 3.3.3
       zod: 3.22.4
     transitivePeerDependencies:
@@ -3432,8 +3432,8 @@ packages:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: true
 
-  /ws@8.14.2:
-    resolution: {integrity: sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g==}
+  /ws@8.17.1:
+    resolution: {integrity: sha512-6XQFvXTkbfUOZOKKILFG1PDK2NDQs4azKQl26T0YS5CxqWLgXajbPZ+h4gZekJyRqFU8pvnbAbbs/3TgRPy+GQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -3474,8 +3474,8 @@ packages:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
     dev: true
 
-  github.com/Inrixia/tweetnacl-js/5a9c25e0045dadcb2be68705f5e841fa2db3715b:
-    resolution: {tarball: https://codeload.github.com/Inrixia/tweetnacl-js/tar.gz/5a9c25e0045dadcb2be68705f5e841fa2db3715b}
+  git@github.com+Inrixia/tweetnacl-js/5a9c25e0045dadcb2be68705f5e841fa2db3715b:
+    resolution: {commit: 5a9c25e0045dadcb2be68705f5e841fa2db3715b, repo: git@github.com:Inrixia/tweetnacl-js.git, type: git}
     name: tweetnacl
     version: 1.0.3
     dev: false
@@ -3487,5 +3487,5 @@ packages:
     dependencies:
       discord-api-types: 0.37.79
       itty-router: 2.6.6
-      tweetnacl: github.com/Inrixia/tweetnacl-js/5a9c25e0045dadcb2be68705f5e841fa2db3715b
+      tweetnacl: git@github.com+Inrixia/tweetnacl-js/5a9c25e0045dadcb2be68705f5e841fa2db3715b
     dev: false
