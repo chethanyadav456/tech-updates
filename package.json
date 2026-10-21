@@ -4,18 +4,18 @@
   "private": true,
   "main": "index.js",
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20240405.0",
-    "@types/node": "^20.12.7",
-    "prisma": "5.12.1",
-    "ts-loader": "^7.0.5",
-    "typescript": "5.4.5",
-    "webpack": "^4.43.0",
-    "wrangler": "3.50.0"
+    "@cloudflare/workers-types": "^4.20250529.0",
+    "@types/node": "^22.15.11",
+    "prisma": "^5.22.0",
+    "ts-loader": "^9.0.0",
+    "typescript": "^5.8.3",
+    "webpack": "^5.99.0",
+    "wrangler": "^4.19.0"
   },
   "dependencies": {
-    "@prisma/client": "5.12.1",
+    "@prisma/client": "^5.22.0",
     "@prisma/extension-accelerate": "^1.0.0",
-    "esbuild": "^0.20.2",
+    "esbuild": "^0.25.0",
     "cf-workers-discord": "github:appujet/cf-workers-discord#84fe24aa6be762920f8025cdd78730bee37ca4ba"
   },
   "scripts": {
